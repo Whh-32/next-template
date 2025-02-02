@@ -4,7 +4,7 @@ import { HiCheckCircle, HiXCircle, HiExclamationCircle, HiX } from 'react-icons/
 import { toast } from 'react-hot-toast'
 
 interface CustomToastProps {
-    status: 'success' | 'warn' | 'err' | 'info';
+    status: 'success' | 'error' | 'warning' | 'info';
     title: string;
     id: string;
     duration: number;}
@@ -16,13 +16,13 @@ function CustomToast({ status, title, id, duration}: CustomToastProps) {
     const getProgressBarColor = () => {
         switch (status) {
             case 'success':
-                return 'bg-green-500';
-            case 'warn':
-                return 'bg-orange-500';
-            case 'err':
-                return 'bg-red-500';
+                return 'bg-status-success';
+            case 'error':
+                return 'bg-status-error';
+            case 'warning':
+                return 'bg-status-warning';
             case 'info':
-                return 'bg-blue-500';
+                return 'bg-status-info';
             default:
                 return 'bg-blue-500';
         }
@@ -47,26 +47,26 @@ function CustomToast({ status, title, id, duration}: CustomToastProps) {
 
     return (
         <div
-            className={`rounded-md p-4 w-80 bg-toast text-toast-foreground mr-5 mb-4`}
+            className={`rounded-md p-4 flex flex-col justify-between w-80 bg-toast text-toast-foreground mr-5 mb-4`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <div className="flex justify-between items-start">
+            <div className="flex justify-between items-start mb-2">
                 <div className="fcc">
                     <div className="flex-shrink-0 ml-1">
-                        {status === 'success' && <HiCheckCircle className="h-5 w-5 text-green-500" aria-hidden="true" />}
-                        {status === 'warn' && <HiExclamationCircle className="h-5 w-5 text-orange-500" aria-hidden="true" />}
-                        {status === 'err' && <HiXCircle className="h-5 w-5 text-red-500" aria-hidden="true" />}
-                        {status === 'info' && <HiExclamationCircle className="h-5 w-5 text-blue-500" aria-hidden="true" />}
+                        {status === 'success' && <HiCheckCircle className="h-5 w-5 text-status-success" aria-hidden="true" />}
+                        {status === 'warning' && <HiExclamationCircle className="h-5 w-5 text-status-warning" aria-hidden="true" />}
+                        {status === 'error' && <HiXCircle className="h-5 w-5 text-status-error" aria-hidden="true" />}
+                        {status === 'info' && <HiExclamationCircle className="h-5 w-5 text-status-info" aria-hidden="true" />}
                     </div>
                     <div className='text-sm'>{title}</div>
                 </div>
                 <button onClick={() => toast.dismiss(id)}>
-                    <HiX className="h-4 w-4" aria-hidden="true" />
+                    <HiX className="h-[14px] w-[14px]" aria-hidden="true" />
                 </button>
             </div>
-            <div className="h-1 bg-gray-200 mt-2">
-                <div className={`h-full ${getProgressBarColor()}`} style={{ width: `${progress}%` }}></div>
+            <div className="h-1 bg-gray-200 mt-2 rounded-xl">
+                <div className={`h-full rounded-xl ${getProgressBarColor()}`} style={{ width: `${progress}%` }}></div>
             </div>
         </div>
     )
